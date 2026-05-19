@@ -40,7 +40,7 @@ def start_sglang():
         "--mem-fraction-static",  MEM_FRAC,
         "--chunked-prefill-size", "2096",
         "--max-running-requests", MAX_REQS,
-        "--quantization",         "modelopt",
+        "--quantization",         "modelopt_fp4",
         "--kv-cache-dtype",       "fp8_e4m3",
         "--reasoning-parser",          "qwen3",
         "--tool-call-parser",          "qwen3_coder",
