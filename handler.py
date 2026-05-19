@@ -5,7 +5,7 @@ import subprocess
 import requests
 import runpod
 
-MODEL_ID    = os.environ.get("MODEL_ID",       "unsloth/Qwen3.6-27B-NVFP4")
+MODEL_ID    = os.environ.get("MODEL_ID",       "AEON-7/Qwen3.6-27B-AEON-Ultimate-Uncensored-Multimodal-NVFP4-MTP")
 SERVED_NAME = os.environ.get("SERVED_NAME",    "qwen3.6-27b")
 HF_TOKEN    = os.environ.get("HF_TOKEN",       "")
 MAX_LEN     = os.environ.get("MAX_MODEL_LEN",  "262144")
@@ -40,7 +40,7 @@ def start_sglang():
         "--mem-fraction-static",  MEM_FRAC,
         "--chunked-prefill-size", "2096",
         "--max-running-requests", MAX_REQS,
-        "--quantization",         "compressed-tensors",
+        "--quantization",         "modelopt",
         "--kv-cache-dtype",       "fp8_e4m3",
         "--reasoning-parser",          "qwen3",
         "--tool-call-parser",          "qwen3_coder",
