@@ -11,8 +11,8 @@ on:
 
 jobs:
   build:
-    runs-on: blacksmith-16vcpu-ubuntu-2404
-    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
     permissions:
       contents: read
       packages: write
