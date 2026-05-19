@@ -48,6 +48,7 @@ def start_sglang():
         "--speculative-num-steps",     "3",
         "--speculative-eagle-topk",    "1",
         "--speculative-num-draft-tokens", "4",
+        "--mamba-scheduler-strategy",  "extra_buffer",
         "--attention-backend",         ATTN_BACKEND,
         "--enable-metrics",
         "--enable-cache-report",
