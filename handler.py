@@ -78,7 +78,7 @@ def _build_payload(data, stream):
         payload = {
             "model":       SERVED_NAME,
             "messages":    data["messages"],
-            "max_tokens":  data.get("max_tokens",  512),
+            "max_tokens":  data.get("max_tokens",  2048),
             "temperature": data.get("temperature", 0.7),
             "top_p":       data.get("top_p",       0.9),
             "stream":      stream,
