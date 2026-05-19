@@ -21,6 +21,7 @@ def start_sglang():
         **os.environ,
         "HF_TOKEN":               HF_TOKEN,
         "HUGGING_FACE_HUB_TOKEN": HF_TOKEN,
+        "SGLANG_ENABLE_SPEC_V2":  "1",
     }
 
     if os.path.isdir("/runpod-volume"):
@@ -41,9 +42,13 @@ def start_sglang():
         "--max-running-requests", MAX_REQS,
         "--quantization",         "compressed-tensors",
         "--kv-cache-dtype",       "fp8_e4m3",
-        "--reasoning-parser",     "qwen3",
-        "--tool-call-parser",     "qwen3_coder",
-        "--attention-backend",    ATTN_BACKEND,
+        "--reasoning-parser",          "qwen3",
+        "--tool-call-parser",          "qwen3_coder",
+        "--speculative-algo",          "NEXTN",
+        "--speculative-num-steps",     "3",
+        "--speculative-eagle-topk",    "1",
+        "--speculative-num-draft-tokens", "4",
+        "--attention-backend",         ATTN_BACKEND,
         "--enable-metrics",
         "--enable-cache-report",
         "--trust-remote-code",
