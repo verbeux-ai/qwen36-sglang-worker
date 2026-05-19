@@ -101,31 +101,33 @@ def _build_payload(data, stream):
     return url, payload
 
 
+# Generator function — RunPod SDK detecta streaming via inspect.isgeneratorfunction().
+# Para modo sync (stream=False), yield uma única vez; com return_aggregate_stream=True
+# o SDK agrega yields em uma lista no output do /run e /status.
 def handler(job):
     data = job["input"]
     want_stream = data.get("stream", False)
     url, payload = _build_payload(data, want_stream)
 
     if want_stream:
-        def generate():
-            with requests.post(url, json=payload, stream=True, timeout=600) as r:
-                for raw in r.iter_lines():
-                    if not raw:
-                        continue
-                    line = raw.decode("utf-8")
-                    if line.startswith("data: "):
-                        line = line[6:]
-                    if line == "[DONE]":
-                        break
-                    try:
-                        yield json.loads(line)
-                    except json.JSONDecodeError:
-                        yield {"raw": line}
-        return generate()
+        with requests.post(url, json=payload, stream=True, timeout=600) as r:
+            for raw in r.iter_lines():
+                if not raw:
+                    continue
+                line = raw.decode("utf-8")
+                if line.startswith("data: "):
+                    line = line[6:]
+                if line == "[DONE]":
+                    return
+                try:
+                    yield json.loads(line)
+                except json.JSONDecodeError:
+                    yield {"raw": line}
+        return
 
     r = requests.post(url, json=payload, timeout=600)
-    return r.json()
+    yield r.json()
 
 
 start_sglang()
-runpod.serverless.start({"handler": handler})
+runpod.serverless.start({"handler": handler, "return_aggregate_stream": True})
