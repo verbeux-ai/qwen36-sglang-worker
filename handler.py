@@ -83,7 +83,8 @@ def _build_payload(data, stream):
             "stream":      stream,
         }
         for k in ("top_k", "repetition_penalty", "stop", "tools", "tool_choice",
-                  "response_format", "seed", "frequency_penalty", "presence_penalty"):
+                  "response_format", "seed", "frequency_penalty", "presence_penalty",
+                  "stream_options"):
             if k in data:
                 payload[k] = data[k]
         url = f"{BASE_URL}/v1/chat/completions"
